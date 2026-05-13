@@ -17,6 +17,8 @@ export function AppReducer(state, action){
             return {...initialState, status: 'sucesso'}
         case 'ERRO' :
             return {...state, status: 'aguardando', erro: action.mensagem}
+        case 'RESET' : 
+            return {...initialState}
         default :
             return state
     }

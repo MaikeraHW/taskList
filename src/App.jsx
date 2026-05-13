@@ -14,9 +14,15 @@ function App() {
 
      dispatch({type: 'INICIAR_ENVIO'})
     try{
+
       await new Promise(resolve => setTimeout(resolve, 2000))
       dispatch({type: 'SUCESSO'})
+
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      dispatch({type: 'RESET'})
+
     } catch(err){
+
         dispatch({type: 'ERRO', mensagem: "Deu erro, tentar novamente"})
     }
   }
@@ -29,6 +35,9 @@ function App() {
 
       <button disabled={state.status === 'enviando'}>{state.status === 'enviando' ? 'Aguarde' : 'Enviar'}</button>
     </form>
+
+    {state.status === 'sucesso' ? <p> Mensagem enviada com sucesso </p> : null}
+    {state.status === 'erro' ? <p> Erro ao enviar mensagem </p> : null}
     <p>Tentativas de cadastro: {state.tentativas}</p>
     </>
   )
