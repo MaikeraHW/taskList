@@ -1,25 +1,36 @@
 import './App.css'
-import FormEditor from './assets/components/FormEditor'
-import { useState } from 'react'
+import { useReducer } from 'react'
+import { initialState, AppReducer } from './assets/reducers/AppReducers'
+
+
+
 
 function App() {
 
-  const [selectedTask, setSelectedTask] = useState(null)
-  const [taskList, setTaskList] = useState(LISTADETAREFAS)
+  const [state, dispatch] = useReducer(AppReducer, initialState)
 
-  function handleSaveTask(id, newName){
-    console.log(id, newName)
-    setTaskList(atual => atual.map(a => a.id === id ? {...a, name : newName} : a))
-    setSelectedTask(null)
+  async function handleSubmit(e){
+    e.preventDefault()
 
+     dispatch({type: 'INICIAR_ENVIO'})
+    try{
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      dispatch({type: 'SUCESSO'})
+    } catch(err){
+        dispatch({type: 'ERRO', mensagem: "Deu erro, tentar novamente"})
+    }
   }
 
   return (
-    <div>
-      {taskList.map(task => (<p key={task.id} onClick={() => setSelectedTask(task)}>{task.name}</p>))}
-      {selectedTask ? ( <FormEditor task={selectedTask} onSave={handleSaveTask} key={selectedTask.id}/>) : ( <p>Selecione uma tarefa para editar</p>) }
+    <>
+    <form onSubmit={handleSubmit}>
+      <input type="text" placeholder='nome' value={state.nome} onChange={(e) => dispatch({type: 'CAMPO_ALTERADO', campo: 'nome', valor: e.target.value})}/>
+      <input type="email" placeholder='e-mail' value={state.email} onChange={(e) => dispatch({type: 'CAMPO_ALTERADO', campo: 'email', valor: e.target.value})}/>
 
-    </div>
+      <button disabled={state.status === 'enviando'}>{state.status === 'enviando' ? 'Aguarde' : 'Enviar'}</button>
+    </form>
+    <p>Tentativas de cadastro: {state.tentativas}</p>
+    </>
   )
 }
 

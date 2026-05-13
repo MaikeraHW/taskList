@@ -1,1 +1,23 @@
-export const initialState = [{id: 1, name: "TESTE"}, {id: 2, name: "TESTE2"}, {id: 3, name: "TESTE3"}, {id: 4, name: "TESTE4"}, {id: 5, name: "TESTE5"}]
+export const initialState = {
+    nome: '',
+    email: '',
+    status: 'aguardando',
+    erro: null,
+    tentativas: 0
+}
+
+export function AppReducer(state, action){
+    switch (action.type){
+
+        case 'CAMPO_ALTERADO' :
+            return {...state, [action.campo] : action.valor}
+        case 'INICIAR_ENVIO' :
+            return {...state, status: 'enviando', erro: null, tentativas: state.tentativas + 1}
+        case 'SUCESSO' : 
+            return {...initialState, status: 'sucesso'}
+        case 'ERRO' :
+            return {...state, status: 'aguardando', erro: action.mensagem}
+        default :
+            return state
+    }
+}
