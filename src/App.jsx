@@ -4,8 +4,6 @@ import { useState } from 'react'
 
 function App() {
 
-  const LISTADETAREFAS = [{id: 1, name: "TESTE"}, {id: 2, name: "TESTE2"}, {id: 3, name: "TESTE3"}, {id: 4, name: "TESTE4"}, {id: 5, name: "TESTE5"}]
-
   const [selectedTask, setSelectedTask] = useState(null)
   const [taskList, setTaskList] = useState(LISTADETAREFAS)
 

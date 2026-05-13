@@ -1,0 +1,1 @@
+export const initialState = [{id: 1, name: "TESTE"}, {id: 2, name: "TESTE2"}, {id: 3, name: "TESTE3"}, {id: 4, name: "TESTE4"}, {id: 5, name: "TESTE5"}]
